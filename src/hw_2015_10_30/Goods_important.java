@@ -43,30 +43,31 @@ v[j 1 ]*w[j 1 ]+v[j 2 ]*w[j 2 ]+ … +v[j k ]*w[j k ] 。（其中 * 为乘号�
  */
 public class Goods_important {
 	int max_n=100;
-	int max_people=10000;
+	int max_money=10000;
 	
 	static int n=5;
-	static int totalPeople=100;
-	int peopleNeed[]={77, 22, 29, 50, 99};
-	int gold[]={92, 22, 87, 46, 90};
-	int [][]maxGold=new int[max_people][max_n];
+	static int totalMoney=1000;
+	int moneyNeed[]={800, 400, 300, 400, 500};
+	int value[]={2, 5, 5, 3, 2};
+	int attach[]={0, 1, 1, 0, 0};
+	int [][]maxValue=new int[max_money][max_n];
 	
 	//初始化数组
 	public void init(){
-		for(int i=0;i<max_people;i++){
+		for(int i=0;i<max_money;i++){
 			for(int j=0;j<n;j++){
-				maxGold[i][j]=-1;
+				maxValue[i][j]=-1;
 			}
 		}
 	}
 	
-	//在仅有people个人,num个金矿下所能获得的最大金子数
-	public int getMaxValue(int people, int num){
+	//在仅有money元情况下购买的物品所能获得的最大重要度
+	public int getMaxValue(int money, int num, int attach){
 		int max_Gold=0;
-		if(maxGold[people][num] != -1){
-			max_Gold = maxGold[people][num];
+		if(maxValue[money][num] != -1){
+			max_Gold = maxValue[money][num];
 		}else if(num==0){
-			if(people>peopleNeed[num]){
+			if(people > peopleNeed[num]){
 				max_Gold=gold[num];
 			}else{
 				max_Gold=0;
