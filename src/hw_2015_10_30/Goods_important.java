@@ -1,5 +1,8 @@
 package hw_2015_10_30;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 描述	
 王强今天很开心，公司发给N元的年终奖。王强决定把年终奖用于购物，他把想买的物品分为两类
@@ -42,42 +45,62 @@ v[j 1 ]*w[j 1 ]+v[j 2 ]*w[j 2 ]+ … +v[j k ]*w[j k ] 。（其中 * 为乘号�
  *
  */
 public class Goods_important {
-	int max_n=100;
-	int max_money=10000;
+	int max_n = 100;
+	int max_money = 10000;
 	
-	static int n=5;
-	static int totalMoney=1000;
-	int moneyNeed[]={800, 400, 300, 400, 500};
-	int value[]={2, 5, 5, 3, 2};
-	int attach[]={0, 1, 1, 0, 0};
-	int [][]maxValue=new int[max_money][max_n];
+	static int n = 5;
+	static int totalMoney = 1000;
+	int moneyNeed[] = {800, 400, 300, 400, 500};//商品需花费的money
+	int value[] = {2, 5, 5, 3, 2};//商品重要度
+	static int attaches[] = {0, 1, 1, 0, 0};//商品主附件
+	static List<Integer> goods = new ArrayList<>();
+	int [][]maxValue = new int[max_money][max_n];
+	
+	public void getValue(){
+		
+	}
 	
 	//初始化数组
 	public void init(){
-		for(int i=0;i<max_money;i++){
-			for(int j=0;j<n;j++){
-				maxValue[i][j]=-1;
+		for(int i = 0; i < max_money; i++){
+			for(int j = 0; j < max_n; j++){
+				maxValue[i][j] = -1;
 			}
 		}
 	}
 	
+	//价格与重要度的乘积
+	public int chengji(int price, int importance){
+		return price * importance;
+	}
+	
 	//在仅有money元情况下购买的物品所能获得的最大重要度
-	public int getMaxValue(int money, int num, int attach){
-		int max_Gold=0;
-		if(maxValue[money][num] != -1){
+	public int getMaxValue(int money, int num, int attach[]){
+		int max_Gold = 0;
+		if(maxValue[money][num] != -1){//若不等于-1,说明已计算过
 			max_Gold = maxValue[money][num];
-		}else if(num==0){
-			if(people > peopleNeed[num]){
-				max_Gold=gold[num];
+		}else if(num == 0){//若为最后一个物品
+			if(money > moneyNeed[num]){//money足够购买该物品
+				if(attach[num] == 0){//若该物品为主件
+					max_Gold = chengji(moneyNeed[num], value[num]);
+					goods.add(num);
+				}else{//如果为附件
+					if(goods.contains(attach[num])){//如果已经够买了该物品的主件
+						max_Gold = chengji(moneyNeed[num], value[num]);
+						goods.add(num);
+					}else{//未购买该物品的主件
+						max_Gold = 0;
+					}
+				}
 			}else{
-				max_Gold=0;
+				max_Gold = 0;
 			}
-		}else if(people>peopleNeed[num]){
-			max_Gold=Math.max(getMaxValue(people-peopleNeed[num], num-1) + gold[num], getMaxValue(people, num-1));
+		}else if(money > moneyNeed[num]){
+			max_Gold = Math.max(getMaxValue(money - moneyNeed[num], num-1, attaches) + value[num], getMaxValue(money, num-1, attaches));
 		}else{
-			getMaxValue(people, num-1);
+			getMaxValue(money, num-1, attaches);
 		}
-		maxGold[people][num] = max_Gold;
+		maxValue[money][num] = max_Gold;
 		
 		return max_Gold;
 	}
@@ -85,7 +108,10 @@ public class Goods_important {
 	public static void main(String[] args) {
 		Goods_important test = new Goods_important();
 		test.init();
-		System.out.println("----" + test.getMaxValue(totalPeople, n - 1));
+		System.out.println("----" + test.getMaxValue(totalMoney, n - 1, attaches));
+		for(int x:goods){
+			System.out.println(x);
+		}
 
 	}
  
