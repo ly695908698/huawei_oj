@@ -45,6 +45,7 @@ v[j 1 ]*w[j 1 ]+v[j 2 ]*w[j 2 ]+ … +v[j k ]*w[j k ] 。（其中 * 为乘号�
  *
  */
 public class Goods_important {
+	private Double dd;
 	int max_n = 100;
 	int max_money = 10000;
 	
@@ -63,7 +64,7 @@ public class Goods_important {
 	//初始化数组
 	public void init(){
 		for(int i = 0; i < max_money; i++){
-			for(int j = 0; j < max_n; j++){
+			for(int j = 0; j < n; j++){
 				maxValue[i][j] = -1;
 			}
 		}
@@ -106,13 +107,36 @@ public class Goods_important {
 	}
 
 	public static void main(String[] args) {
-		Goods_important test = new Goods_important();
-		test.init();
-		System.out.println("----" + test.getMaxValue(totalMoney, n - 1, attaches));
-		for(int x:goods){
-			System.out.println(x);
-		}
+//		Goods_important test = new Goods_important();
+//		test.init();
+//		System.out.println("----" + test.getMaxValue(totalMoney, n - 1, attaches));
+//		for(int x:goods){
+//			System.out.println(x);
+//		}
+		
+//		String temp="[ads,as]";
+//		String[] hello=temp.split(",");
+//		for(int i=0;i<hello.length;i++)
+//		System.out.println(hello[i]);
 
+		Goods_important g = new Goods_important();
+		Double a = g.getDd();
+		g.test(a);
+		
+		
+		
+		
 	}
- 
+	
+	public Double getDd() {
+		return dd;
+	}
+
+	public void setDd(Double dd) {
+		this.dd = dd;
+	}
+
+	void test(double a){
+		System.out.println(a);
+	}
 }
