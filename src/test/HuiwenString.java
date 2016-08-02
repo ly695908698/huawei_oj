@@ -15,13 +15,14 @@ public class HuiwenString {
 		while(scan.hasNext()){
 			System.out.println(deleteCharNum(scan.nextLine()));
 		}
-
+		 scan.close();
 	}
 	
 	private static int deleteCharNum(String words){
 		return lengthOfLCS(words, new StringBuffer(words).reverse().toString());
 	}
 	
+	//动态规划求最长公共子序列的长度
 	private static int lengthOfLCS(String str1, String str2){
 		char[] s1=str1.toCharArray();
 		char[] s2=str2.toCharArray();
@@ -51,7 +52,7 @@ public class HuiwenString {
 			}
 		}
 		
-		//递归计算s1与s2各个字符处的lcs
+		//递推求解各个字符处的LCS
 		for(int i=1;i<len1;++i){
 			for(int j=1;j<len2;++j){
 				if(s1[i]==s2[j]){
