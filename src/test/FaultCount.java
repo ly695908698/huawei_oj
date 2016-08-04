@@ -1,6 +1,5 @@
 package test;
 
-import java.util.Scanner;
 
 /** 
  * @author  yong.liu.sh 
@@ -34,15 +33,87 @@ E:\V1R2\product\fpgadrive.c 1325
 输出例子:
 fpgadrive.c 1325 1
  */
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 public class FaultCount {
 
 	public static void main(String[] args) {
 		Scanner scan=new Scanner(System.in);
+		Set<ErrorFile> set =new HashSet<ErrorFile>();
+		int j=0;
 		while(scan.hasNext()){
+			ErrorFile file = new ErrorFile();
 			String temp=scan.next();
+			if(temp.equals("exit")){
+				scan.close();
+				break;
+			}else{
+			
+			file.name = temp.substring(temp.lastIndexOf("\\")+1);
 			int errorLine=scan.nextInt();
+			file.line = errorLine;
+			if(set.add(file)){
+				file.count++;
+				file.order=j;
+				j++;
+			}
+			}
 		}
-
+		
+		
+		Comparator<ErrorFile> com = new Comparator<ErrorFile>() {
+			@Override
+			public int compare(ErrorFile o1, ErrorFile o2) {
+				return o1.count != o2.count ? o2.count - o1.count : o1.order - o2.order;
+			}
+		};
+		
+		List<ErrorFile> list = new ArrayList<ErrorFile>(set);
+		Collections.sort(list, com);
+		
+		StringBuffer br = new StringBuffer();
+		 for(int i = 0; i < (list.size() > 8 ? 8 : list.size()); i ++){
+			 ErrorFile file = list.get(i);
+			if(file.name.length() > 16){
+				br = new StringBuffer(file.name.substring(file.name.length()-16, file.name.length()));
+			}else{
+				br = new StringBuffer(file.name);
+			}
+			br.append(" ").append(file.line).append(" ").append(file.count);
+			System.out.println(br);
+		}
+		
 	}
-
+	
+	
+	static class ErrorFile{
+		String name;
+		int line;
+		int count;
+		int order;
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			return line*prime + count*prime + name.hashCode();
+		}
+		@Override
+		public boolean equals(Object obj) {
+			ErrorFile file = (ErrorFile)obj;
+			if(!this.name.equals(file.name)){
+				return false;
+			}
+			if(this.line != file.line){
+				return false;
+			}
+			file.count ++;
+			return true;
+		}
+	}
+	
 }
