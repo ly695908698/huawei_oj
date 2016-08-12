@@ -29,17 +29,116 @@ sun的室友在帮电脑节设计迷宫，所以室友就请sun帮忙计算下�
 2
 8
 
+#.########
+#........#
+########.#
+#........#
+#.########
+#........#
+########.#
+#........#
+#.######.#
+########.#
+
+
  */
 /** 
  * @author  yong.liu.sh 
  * @date 创建时间：2016年8月12日 下午3:00:40 
- * @return  
+ * @return  https://www.nowcoder.com/search?type=question&query=%E8%BF%B7%E5%AE%AB
  */
 public class RushMaze {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	// write your code here
+	import java.util.*;
+	import java.util.Scanner;
+	import java.util.concurrent.ArrayBlockingQueue;
+	 
+	public class Main {
+	    public static void main(String[] args) {
+	        Scanner sc = new Scanner(System.in);
+	        while (sc.hasNext()) {
+	            int[][] data = new int[10][10];
+	            for (int i = 0; i < 10; i++) {
+	                String str = sc.nextLine();
+	                for (int j = 0; j < 10; j++) {
+	                    //System.out.print(str.charAt(j) + " ");
+	                    switch (str.charAt(j)) {
+	                    case '.':
+	                        // 可通行
+	                        data[i][j] = 0;
+	                        break;
+	                    case '#':
+	                        // 不可通行
+	                        data[i][j] = 1;
+	                        break;
+	                    }
+	                }
+	            }
+	            System.out.println(bfs(data));
+	        }
+	    }
+	 
+	    public static int bfs(int[][] data) {
+	        int n = data.length;
+	        boolean[][] visited = new boolean[n][n];
+	        for(int i = 0;i<n;i++){
+	            for(int j = 0;j<n;j++){
+	                if(data[i][j] == 1){
+	                    visited[i][j] = true;
+	                    continue;
+	                }  
+	                visited[i][j] = false;
+	            }
+	        }
+	        Queue<Point> queue = null;
+	        queue = new ArrayBlockingQueue<Point>(100);
+	        Point start = new Point(0, 1,0);
+	        queue.add(start);
+	        visited[0][1] = true;
+	        while(!queue.isEmpty()){
+	            Point p = queue.poll();
+	            int x = p.x;
+	            int y = p.y;
+	            int step = p.step;
+	            if( x == 9 && y == 8)
+	                return step;
+	            // 不是第一行
+	            if (x != 0 && data[x - 1][y] != 1 && !visited[x-1][y]){
+	                queue.add(new Point(x - 1, y,step+1));
+	                visited[x-1][y] = true;
+	            }
+	            // 不是第一列
+	            if (y != 0 && data[x][y-1] != 1 && !visited[x][y-1]){
+	                queue.add(new Point(x, y - 1,step+1));
+	                visited[x][y-1] = true;
+	            }
+	            // 不是最后一行
+	            if (x != 9 && data[x +1][y] != 1 && !visited[x+1][y]){
+	                queue.add(new Point(x + 1, y,step+1));
+	                visited[x+1][y] = true;
+	            }
+	                 
+	            // 不是最后一列
+	            if (y != 9 && data[x][y+1] != 1 && !visited[x][y+1]){
+	                queue.add(new Point(x, y+1,step+1));
+	                visited[x][y+1] = true;
+	            }
+	        }
+	        return 0;
+	    }
 	}
+	 
+	class Point {
+	    int x;
+	    int y;
+	    int step;
+	    public Point(int x, int y,int step) {
+	        this.x = x;
+	        this.y = y;
+	        this.step = step;
+	    }
+	}
+
 
 }
