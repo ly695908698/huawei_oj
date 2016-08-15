@@ -1,6 +1,5 @@
 package test;
 
-import java.util.Scanner;
 /**
  * [编程题] 删数
 有一个数组a[N]顺序存放0~N-1，要求每隔两个数删掉一个数，到末尾时循环至开头继续进行，
@@ -23,18 +22,31 @@ import java.util.Scanner;
  * @date 创建时间：2016年8月9日 上午10:05:44 
  * @return  
  */
+import java.util.Scanner;
 public class DeleteArray {
 
 	public static void main(String[] args) {
 		Scanner scan =new Scanner(System.in);
 		while(scan.hasNext()){
-			int number = scan.nextInt();
-			int[] arr = new int[number];
-			for(int i=0;i<number;i++){
-				arr[i]=i;
+			int n = scan.nextInt();
+			boolean[] delete = new boolean[n];
+			int count =0;
+			int index = 0;
+			int num = 0;
+			while(count<n){
+				for(int i=0;i!=n;i++){
+					if(!delete[i]){
+						num++;
+						if(num==3){
+							delete[i] = true;
+							index = i;
+							count++;
+							num=0;
+						}
+					}
+				}
 			}
-			System.out.println();
+			System.out.println(index);
 		}
 	}
-
 }
