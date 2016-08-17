@@ -73,10 +73,10 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class RushMaze_Path {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		int n = sc.nextInt();
-		int m = sc.nextInt();
-		int[][] data = new int[n][m];
 		while (sc.hasNext()) {
+			int n = sc.nextInt();
+			int m = sc.nextInt();
+			int[][] data = new int[n][m];
 			for(int i=0;i<n;i++){
 				for(int j =0;j<m;j++){
 					data[i][j] = sc.nextInt();
